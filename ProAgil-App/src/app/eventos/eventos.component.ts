@@ -18,8 +18,8 @@ eventos: any;
   }
 
   getEventos(){
-     this.http.get('htp://localhost:5000/api/values').subscribe(Response =>{
-      this.eventos = Response;
+     this.http.get('http://localhost:5000/api/values').subscribe(response =>{
+      this.eventos = response;
     }, error =>{
          console.log(error);
     });

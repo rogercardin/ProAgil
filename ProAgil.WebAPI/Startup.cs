@@ -27,6 +27,14 @@ namespace ProAgil.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+              services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().Build();
+                });
+            });
+            
             services.AddDbContext<DataContext>(x => x.UseSqlite(
                 Configuration.GetConnectionString("DefaultConnections")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -48,7 +56,9 @@ namespace ProAgil.WebAPI
                 app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            
+             app.UseCors("EnableCORS");
+             app.UseHttpsRedirection();
             //app.UserCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             //app.UserCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
